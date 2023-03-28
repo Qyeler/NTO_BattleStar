@@ -70,9 +70,9 @@ def userboard(username):
 
     fig, ax = plt.subplots()
     ax.plot(x, y)
-    ax.set_xlabel('Time')
-    ax.set_ylabel('Power')
-    ax.set_title('Power Usage')
+    ax.set_xlabel('Time(sec)')
+    ax.set_ylabel('Power(W)')
+    ax.set_title('Power Usage/sec')
     plt.xticks(rotation=45)
     img = io.BytesIO()
     plt.savefig(img, format='png')
