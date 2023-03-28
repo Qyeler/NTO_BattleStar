@@ -9,7 +9,15 @@ from flask import Flask, url_for
 import matplotlib.pyplot as plt
 from datetime import datetime
 from flask import abort
+
+
+
+
 app = Flask(__name__)
+
+
+
+
 
 app.secret_key = 'mysecretkey'
 
@@ -27,8 +35,10 @@ def login():
             session['username'] = username
             return redirect(url_for('dashboard', username=username))
         else:
-            return 'Invalid username or password'
+            return render_template('login.html', message="invalid")
+            #return 'Invalid username or password'
     else:
+        
         return render_template('login.html')
 
 
@@ -70,9 +80,9 @@ def userboard(username):
 
     fig, ax = plt.subplots()
     ax.plot(x, y)
-    ax.set_xlabel('Time(sec)')
-    ax.set_ylabel('Power(W)')
-    ax.set_title('Power Usage/sec')
+    ax.set_xlabel('Time')
+    ax.set_ylabel('Power')
+    ax.set_title('Power Usage')
     plt.xticks(rotation=45)
     img = io.BytesIO()
     plt.savefig(img, format='png')
@@ -109,4 +119,4 @@ def dashboard(username):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=1)

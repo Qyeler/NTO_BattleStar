@@ -1,0 +1,13 @@
+body {
+    background-color: #E9E9E9;
+}
+
+nav {
+    float: right;
+}
+
+.logo {
+    width: 500px;
+    height: 73px;
+    float: right;
+}

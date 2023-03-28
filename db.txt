@@ -1,3 +1,4 @@
 username:password:user
 test1:test1:user
 username2:password2:admin
+ArtemShutov:lox:user
