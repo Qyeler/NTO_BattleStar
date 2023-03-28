@@ -26,8 +26,28 @@ def login():
         username = request.form['username']
         password = request.form['password']
         if check_user(username, password):
-            session['username'] = username
-            return redirect(url_for('dashboard', username=username))
+            users = load_users()
+            access_level = users[username]['access_level']
+            if access_level == 'admin':
+                session['username'] = username
+                # показать информацию для администратора
+                return redirect(url_for('admin_dashboard', admin_username=username))
+            elif access_level == 'operator':
+                session['username'] = username
+
+                # показать информацию для оператора
+                return render_template('operator_dashboard.html', username=username)
+            else:
+                session['username'] = username
+                # показать информацию для пользователя
+                user_file = os.path.join('user_data', f'{username}.txt')
+                if not os.path.exists(user_file):
+                    return f'User {username} not found'
+                with open(user_file, 'r') as f:
+                    lines = f.readlines()
+                    temperature = lines[0].strip()
+                    cost = lines[1].strip()
+            return redirect(url_for('userboard', username=username))
         else:
             return render_template('login.html', message="invalid")
             # return 'Invalid username or password'
@@ -88,52 +108,49 @@ def userboard(username):
     return render_template('user_dashboard.html', img_url=img_url, user=username)
 
 
-@app.route('/dashboard/<username>')
-def dashboard(username):
-    if 'username' not in session or session['username'] != username:
-        return redirect(url_for('login'))
-    else:
-        users = load_users()
-        access_level = users[username]['access_level']
-        if access_level == 'admin':
-            # показать информацию для администратора
-            return admin_dashboard(username)
-        elif access_level == 'operator':
-            # показать информацию для оператора
-            return render_template('operator_dashboard.html', username=username)
-        else:
-            # показать информацию для пользователя
-            user_file = os.path.join('user_data', f'{username}.txt')
-            if not os.path.exists(user_file):
-                return f'User {username} not found'
-            with open(user_file, 'r') as f:
-                lines = f.readlines()
-                temperature = lines[0].strip()
-                cost = lines[1].strip()
-            return userboard(username)
+# @app.route('/dashboard/<username>')
+# def dashboard(username):
+#     if 'username' not in session or session['username'] != username:
+#         return redirect(url_for('login'))
+#     else:
+#         users = load_users()
+#         access_level = users[username]['access_level']
+#         if access_level == 'admin':
+#             # показать информацию для администратора
+#             return admin_dashboard(username)
+#         elif access_level == 'operator':
+#             # показать информацию для оператора
+#             return render_template('operator_dashboard.html', username=username)
+#         else:
+#             # показать информацию для пользователя
+#             user_file = os.path.join('user_data', f'{username}.txt')
+#             if not os.path.exists(user_file):
+#                 return f'User {username} not found'
+#             with open(user_file, 'r') as f:
+#                 lines = f.readlines()
+#                 temperature = lines[0].strip()
+#                 cost = lines[1].strip()
+#                 return userboard(username)
 @app.route('/admin_dashboard/<admin_username>')
-def admin_dashboard(username):
-    if 'username' not in session or session['username'] != username:
+def admin_dashboard(admin_username):
+    if 'username' not in session or session['username'] != admin_username:
         return redirect(url_for('login'))
     users = load_users()
-    if username not in users or users[username]['access_level'] != 'admin':
-        abort(404)
-
     all_users = []
     for username, data in users.items():
         user_info = {
             'username': username,
-            'field1': '',  # заполни данные для поля 1
-            'field2': '',  # заполни данные для поля 2
+            'field1': "asfsaafsasaf",  # заполни данные для поля 1
+            'field2': "asfsaafsasasdadaf",  # заполни данные для поля 2
         }
         all_users.append(user_info)
-
-    return render_template('admin_dashboard.html', username=username, all_users=all_users)
+    print(all_users)
+    return render_template('admin_dashboard.html', username=admin_username, all_users=all_users)
 
 
 @app.route('/admin_dashboard/<admin_username>/user_stats/<user_username>')
 def user_stats(admin_username, user_username):
-    if 'username' not in session or session['username'] != username:
+    if 'username' not in session or session['username'] != admin_username:
         return redirect(url_for('login'))
     users = load_users()
     if admin_username not in users or users[admin_username]['access_level'] != 'admin':
@@ -143,7 +160,11 @@ def user_stats(admin_username, user_username):
 
     # здесь собираем статистику для пользователя user_username
     # и передаем ее в шаблон для отображения
-    user_stats = {}
+    user_stats = {
+        'username': user_username,
+        'field1': "asfsaafsasaf",  # заполни данные для поля 1
+        'field2': "asfsaafsasasdadaf",  # заполни данные для поля 2
+    }
 
     return render_template('user_stats.html', username=admin_username, user_username=user_username, user_stats=user_stats)
 

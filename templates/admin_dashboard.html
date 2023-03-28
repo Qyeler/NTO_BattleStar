@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+  <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<p>Admin</p>
-</body>
+    <title>Admin Dashboard</title>
+  </head>
+  <body>
+    <h1>Welcome, {{ username }}!</h1>
+    <ul>
+      <li><a href="{{ url_for('admin_dashboard', admin_username=username) }}">Dashboard</a></li>
+      <li><a href="{{ url_for('login') }}">Logout</a></li>
+    </ul>
+    <h2>User List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Data1</th>
+          <th>Data2</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in all_users %}
+        <tr>
+          <td>{{ user['field1']}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
 </html>
