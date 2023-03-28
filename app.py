@@ -97,7 +97,7 @@ def dashboard(username):
         access_level = users[username]['access_level']
         if access_level == 'admin':
             # показать информацию для администратора
-            return userboard(username)
+            return admin_dashboard(username)
         elif access_level == 'operator':
             # показать информацию для оператора
             return render_template('operator_dashboard.html', username=username)
@@ -111,6 +111,41 @@ def dashboard(username):
                 temperature = lines[0].strip()
                 cost = lines[1].strip()
             return userboard(username)
+@app.route('/admin_dashboard/<admin_username>')
+def admin_dashboard(username):
+    if 'username' not in session or session['username'] != username:
+        return redirect(url_for('login'))
+    users = load_users()
+    if username not in users or users[username]['access_level'] != 'admin':
+        abort(404)
+
+    all_users = []
+    for username, data in users.items():
+        user_info = {
+            'username': username,
+            'field1': '',  # заполни данные для поля 1
+            'field2': '',  # заполни данные для поля 2
+        }
+        all_users.append(user_info)
+
+    return render_template('admin_dashboard.html', username=username, all_users=all_users)
+
+
+@app.route('/admin_dashboard/<admin_username>/user_stats/<user_username>')
+def user_stats(admin_username, user_username):
+    if 'username' not in session or session['username'] != username:
+        return redirect(url_for('login'))
+    users = load_users()
+    if admin_username not in users or users[admin_username]['access_level'] != 'admin':
+        abort(404)
+    if user_username not in users:
+        abort(404)
+
+    # здесь собираем статистику для пользователя user_username
+    # и передаем ее в шаблон для отображения
+    user_stats = {}
+
+    return render_template('user_stats.html', username=admin_username, user_username=user_username, user_stats=user_stats)
 
 
 if __name__ == '__main__':

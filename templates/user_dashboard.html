@@ -13,6 +13,9 @@
       }
 
       #user {
+        position: absolute;
+        top: 5%;
+        right: 5%;
         width: 450px;
         height: 50px;
         background: white;
@@ -22,6 +25,131 @@
         margin-right: 1%;
         display: flex;
       }
+
+      #middle {
+        position: absolute;
+        top: 15%;
+        display: flex;
+        width: 95%;
+      }
+
+      .graph {
+        width: 500px;
+        height: auto;
+        margin-top: 5%;
+        margin-left: 7%;
+        
+      }
+
+      #start {
+        width: 400px;
+        height: 150px;
+        background: #000;
+        border-radius: 15px;
+        margin-left: 50%;
+        
+      }
+
+      #start .start {
+        color: white;
+        margin-left: 10%;
+        margin-top: 5%;
+        font-size: 24px;
+        font-weight: bold;
+        padding-top: 3%;
+      }
+
+      #start .input {
+        width: 300px;
+        height: 40px;
+        border: none;
+        border-radius: 25px;
+        margin-top: 1.5%;
+        margin-bottom: 5%;
+        margin-left: 10%;
+      }
+
+      #start1 {
+        width: 400px;
+        height: 150px;
+        background: #000;
+        border-radius: 15px;
+        margin-left: 50%;
+        
+      }
+
+      #start1 .start {
+        color: white;
+        margin-left: 10%;
+        margin-top: 5%;
+        font-size: 24px;
+        font-weight: bold;
+        padding-top: 3%;
+      }
+
+      #start1 .input {
+        width: 300px;
+        height: 40px;
+        border: none;
+        border-radius: 25px;
+        margin-top: 1.5%;
+        margin-bottom: 5%;
+        margin-left: 10%;
+      }
+
+      #start2 {
+        width: 400px;
+        height: 150px;
+        background: #000;
+        border-radius: 15px;
+        margin-left: 50%;
+        
+      }
+
+      #start2 .start {
+        color: white;
+        margin-left: 10%;
+        margin-top: 5%;
+        font-size: 24px;
+        font-weight: bold;
+        padding-top: 3%;
+      }
+
+      #start2 .input {
+        width: 300px;
+        height: 40px;
+        border: none;
+        border-radius: 25px;
+        margin-top: 1.5%;
+        margin-bottom: 5%;
+        margin-left: 10%;
+      }
+
+      .nal {
+        background: white;
+        color: black;
+        padding: 10px 140px;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        font-size: 24px;
+        text-align: center;
+        float:right;
+        
+      }
+      #nal {
+        position: absolute;
+margin-left: auto;
+margin-right: auto;
+left: 35%;
+text-align: center;
+top: 90%;
+margin-bottom: 10%;
+      }
+
+      #block {
+        justify-content: space-between;
+      }
     </style>
   </head>
   <body>
@@ -30,6 +158,35 @@
       <p style="margin-top: 14px; margin-left: 25%; font-size: 20px;">{{user}}</p>
     </div>
 
+    <div id="middle">
+      <div class="graph">
+        <img class="graph" src="data:image/png;base64,{{ img_url }}" />
+      </div>
+      <div id="block">
+      <div id="start">
+        <p class="start">Начало</p>
+        <input class="input" type="text">
+      </div>
+
+      <div id="start1">
+        <p class="start">Конец</p>
+        <input class="input" type="text">
+      </div>
+
+      <div id="start2">
+        <p class="start">Стоимость за период</p>
+        <input class="input" type="text">
+      </div>
+
+
+      
+    </div>
+    
+    </div>
+    
+    </div>
+    <div id="nal">
+      <a class="nal" href="">Получить выписку</a></div>
 
 
     <!-- <p class="acInfo">Stat {{user}}</p> -->
