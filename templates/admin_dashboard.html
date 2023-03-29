@@ -48,28 +48,45 @@
       }
       
       table {
+       
         color: white;
         background: #000;
         border-radius: 15px;
         padding: 20px;
-      border: 2px solid;
-      max-width: 80%;
+        border: 2px solid;
+        width: 90%;
+      
       margin: 0 auto;
       
       }
 
       table td {
+        width: 18%;
         padding-left: 10px;
         padding-right: 10px;
-        border: 1px solid;
+        border: 1px solid #E9E9E9;
         background: white;
         color: black;
         font-family: 'Titillium Web', sans-serif;
+        text-align: center;
+      }
+      table th {
+        padding-bottom: 10px;
       }
 
       .graph {
         max-width: 450px;
         height: auto;
+      }
+      #onoff {
+        text-align: center;
+        padding: 10px 30px;
+        border-radius: 25px;
+        border: none;
+        margin: 0 auto;
+        background-color: #44944A;
+        color: white;
+        font-family: 'Titillium Web', sans-serif;
       }
   </style>
   <body>
@@ -90,7 +107,9 @@
           <th>Username</th>
           <th>Data1</th>
           <th>Data2</th>
-            <th>Data3</th>
+          <th>Data3</th>
+          <th>Data4</th>
+          
         </tr>
       </thead>
       <tbody>
@@ -99,10 +118,25 @@
             <td>{{ user['username'] }}</td>>
             <td>{{ user['field1']}}</td>
             <td><img class="graph" src="{{ user['graf']}}"></td>
-        <td>{{ user['field2']}}</td>
+        <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
+        <td>data4</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
+    <script type="text/javascript">
+      function onoff(_this){
+        currentvalue = document.getElementById('onoff').value;
+        if(currentvalue == "Off"){
+          document.getElementById("onoff").value="On";
+          _this.style.backgroundColor = "#44944A";
+        }else{
+          document.getElementById("onoff").value="Off";
+          _this.style.backgroundColor = "red";
+        }
+      }
+      </script>
+      
+      
   </body>
 </html>
