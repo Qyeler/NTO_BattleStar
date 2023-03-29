@@ -107,8 +107,8 @@
           <th>Username</th>
           <th>Data1</th>
           <th>Data2</th>
-          <th>Data3</th>
           <th>Data4</th>
+          <th>Data3</th>
           
         </tr>
       </thead>
@@ -118,8 +118,8 @@
             <td>{{ user['username'] }}</td>>
             <td>{{ user['field1']}}</td>
             <td><img class="graph" src="{{ user['graf']}}"></td>
-        <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
         <td>data4</td>
+        <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -127,14 +127,19 @@
     <script type="text/javascript">
       function onoff(_this){
         currentvalue = document.getElementById('onoff').value;
-        if(currentvalue == "Off"){
-          document.getElementById("onoff").value="On";
+        if(_this.value == "Off"){
+          _this.value="On";
           _this.style.backgroundColor = "#44944A";
-        }else{
-          document.getElementById("onoff").value="Off";
+          
+        } else if (_this.value == "On"){
+          _this.value="Off";
           _this.style.backgroundColor = "red";
+          
         }
       }
+
+
+    
       </script>
       
       
