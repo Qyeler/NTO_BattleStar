@@ -61,9 +61,14 @@
       }
 
       #start .input {
-        width: 300px;
+        font-size: 24px;
+        width: 250px;
+        padding-left: 25px;
+        padding-right: 25px;
         height: 40px;
         border: none;
+        padding-left: 25px;
+        padding-right: 25px;
         border-radius: 25px;
         margin-top: 1.5%;
         margin-bottom: 5%;
@@ -89,7 +94,10 @@
       }
 
       #start1 .input {
-        width: 300px;
+        font-size: 24px;
+        width: 250px;
+        padding-left: 25px;
+        padding-right: 25px;
         height: 40px;
         border: none;
         border-radius: 25px;
@@ -117,7 +125,10 @@
       }
 
       #start2 .input {
-        width: 300px;
+        font-size: 24px;
+        width: 250px;
+        padding-left: 25px;
+        padding-right: 25px;
         height: 40px;
         border: none;
         border-radius: 25px;
@@ -144,8 +155,22 @@ margin-left: auto;
 margin-right: auto;
 left: 35%;
 text-align: center;
-top: 90%;
+top: 100%;
 margin-bottom: 10%;
+      }
+
+      .cost  {
+        margin-top: 5%;
+        margin-bottom: 2%;
+        font-weight: bold;
+        font-size: 24px;
+        color: black;
+        border: none;
+        width: 400px;
+        height: 50px;
+        background: white;
+        border-radius: 15px;
+        margin-left: 50%;
       }
 
       #block {
@@ -175,9 +200,11 @@ margin-bottom: 10%;
         <input class="input" type="text">
       </div>
 
+      <button class="cost">Получить стоимость</button>
+
       <div id="start2">
         <p class="start">Стоимость за период</p>
-        <input class="input" type="text">
+        <input class="input" type="text" id="out">
       </div>
 
 
