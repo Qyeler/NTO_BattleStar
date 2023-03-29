@@ -9,6 +9,8 @@ from flask import Flask, url_for
 import matplotlib.pyplot as plt
 from datetime import datetime
 from flask import abort
+import calcsum
+import  doPdf
 
 app = Flask(__name__)
 
@@ -74,16 +76,28 @@ def load_users():
     return users
 
 
-@app.route('/dashboard/<username>')
+@app.route('/dashboard/<username>', methods=['GET', 'POST'])
 def userboard(username):
     if 'username' not in session or session['username'] != username:
         return redirect(url_for('login'))
+    if request.method == 'POST':
+        start_str = request.form['start']
+        end_str = request.form['end']
+        # Convert start and end strings to datetime objects
+        # Calculate cost for the period using your custom function
+        print(start_str)
+        print(end_str)
+        cost = calcsum.count_watts(f"user_data/{username}.txt",start_str, end_str)
+        # Render the template with the cost value
+        print(cost)
+        img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла
+        return render_template('user_dashboard.html', user=username,img_url=img_url, cost=cost)
     username = username
     filename = f"user_data/{username}.txt"
 
     with open(filename, 'r') as file:
         data = file.readlines()
-
+    #calcsum(f"user_data/{username}.txt")
     x = []
     y = []
     for line in data:
@@ -99,12 +113,9 @@ def userboard(username):
     ax.set_ylabel('Power')
     ax.set_title('Power Usage')
     plt.xticks(rotation=45)
-    img = io.BytesIO()
-    plt.savefig(img, format='png')
-    img.seek(0)
-
-    # Передаем путь к изображению в шаблон
-    img_url = base64.b64encode(img.read()).decode()
+    img_path = f"static/images/{username}.png"  # путь к файлу на сервере
+    plt.savefig(img_path, format='png')  # сохраняем изображение в файл
+    img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла
     return render_template('user_dashboard.html', img_url=img_url, user=username)
 
 
