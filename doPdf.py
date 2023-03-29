@@ -2,7 +2,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen.canvas import Canvas
-
+import calcsum
 def create_pdf_with_image_and_sum(image_path, pdf_path, image_size, amount):
     c = Canvas(pdf_path, pagesize=letter)
 

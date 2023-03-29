@@ -115,7 +115,9 @@ def userboard(username):
     plt.xticks(rotation=45)
     img_path = f"static/images/{username}.png"  # путь к файлу на сервере
     plt.savefig(img_path, format='png')  # сохраняем изображение в файл
-    img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла
+    img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла\
+    costpdf= calcsum.count_watts(f"user_data/{username}.txt","0,0,0,0", "30,0,0,0")
+    doPdf.create_pdf_with_image_and_sum(f"static/images/{username}.png",f"static/pdf/{username}.pdf",5,costpdf)
     return render_template('user_dashboard.html', img_url=img_url, user=username)
 
 
