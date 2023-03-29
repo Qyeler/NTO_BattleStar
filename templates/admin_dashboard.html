@@ -3,14 +3,87 @@
   <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
   </head>
+
+  <style>
+    
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700;900&display=swap');
+
+      body {
+          background-color: #E9E9E9;
+          font-family: 'Inter', sans-serif;
+      }
+
+      #user {
+        position: absolute;
+        top: 5%;
+        right: 5%;
+        width: 450px;
+        height: 50px;
+        background: white;
+        border-radius: 25px;
+        float: right;
+        margin-top: 1%;
+        margin-right: 1%;
+        display: flex;
+      }
+
+      .users {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        
+        color: white;
+        background: #000;
+        padding: 10px 10px;
+        margin: 0 auto;
+        margin-top: 12%;
+        max-width: 150px;
+        border-radius: 25px;
+        margin-bottom: 40px;
+        
+      }
+      
+      table {
+        color: white;
+        background: #000;
+        border-radius: 15px;
+        padding: 20px;
+      border: 2px solid;
+      max-width: 80%;
+      margin: 0 auto;
+      
+      }
+
+      table td {
+        padding-left: 10px;
+        padding-right: 10px;
+        border: 1px solid;
+        background: white;
+        color: black;
+        font-family: 'Titillium Web', sans-serif;
+      }
+
+      .graph {
+        max-width: 450px;
+        height: auto;
+      }
+  </style>
   <body>
-    <h1>Welcome, {{ username }}!</h1>
+    <div id="user">
+      <img style="margin-left: 15px;" src="{{ url_for('static', filename='images/rename.png') }}" alt="" srcset="">
+      <p style="font-weight: bold; margin-top: 14px; margin-left: 25%; font-size: 20px;">{{username}}</p>
+      <a href="{{ url_for('login') }}"><img style="margin-top: 6px; margin-left: 100px; width: 35px; height: auto;" src="{{ url_for('static', filename='images/exit.svg') }}" alt="" srcset=""></a>
+    </div>
+    <!-- <h1>Welcome, {{ username }}!</h1> -->
     <ul>
-      <li><a href="{{ url_for('admin_dashboard', admin_username=username) }}">Dashboard</a></li>
-      <li><a href="{{ url_for('login') }}">Logout</a></li>
+      <!-- <li><a href="{{ url_for('admin_dashboard', admin_username=username) }}">Dashboard</a></li> -->
+      
     </ul>
-    <h2>User List</h2>
+    <p class="users">User list</p>
     <table>
       <thead>
         <tr>
@@ -23,10 +96,10 @@
       <tbody>
         {% for user in all_users %}
         <tr>
-          <td>{{ user['username'] }}</td>
-          <td>{{ user['field1'] }}</td>
-          <td><img src="{{ user['graf'] }}"></td>
-          <td>{{ user['field2'] }}</td>
+            <td>{{ user['username'] }}</td>>
+            <td>{{ user['field1']}}</td>
+            <td><img class="graph" src="{{ user['graf']}}"></td>
+        <td>{{ user['field2']}}</td>
         </tr>
         {% endfor %}
       </tbody>
