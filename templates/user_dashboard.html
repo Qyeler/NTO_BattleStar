@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>{{user}}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
 
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
@@ -156,6 +157,7 @@ margin-bottom: 10%;
     <div id="user">
       <img style="margin-left: 15px;" src="{{ url_for('static', filename='images/rename.png') }}" alt="" srcset="">
       <p style="margin-top: 14px; margin-left: 25%; font-size: 20px;">{{user}}</p>
+      <a href="{{ url_for('login') }}"><img style="margin-top: 6px; margin-left: 100px; width: 35px; height: auto;" src="{{ url_for('static', filename='images/exit.svg') }}" alt="" srcset=""></a>
     </div>
 
     <div id="middle">
