@@ -17,12 +17,16 @@
           <th>Username</th>
           <th>Data1</th>
           <th>Data2</th>
+            <th>Data3</th>
         </tr>
       </thead>
       <tbody>
         {% for user in all_users %}
         <tr>
-          <td>{{ user['field1']}}</td>
+            <td>{{ user['username'] }}</td>>
+            <td>{{ user['field1']}}</td>
+            <td><img src="{{ user['graf']}}"></td>
+        <td>{{ user['field2']}}</td>
         </tr>
         {% endfor %}
       </tbody>
