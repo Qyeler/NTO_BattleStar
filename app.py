@@ -164,7 +164,7 @@ def userboard(username):
 #                 temperature = lines[0].strip()
 #                 cost = lines[1].strip()
 #                 return userboard(username)
-@app.route('/admin_dashboard/<admin_username>')
+@app.route('/admin_dashboard/<admin_username>', methods=['GET', 'POST'])
 def admin_dashboard(admin_username):
     if 'username' not in session or session['username'] != admin_username:
         return redirect(url_for('login'))

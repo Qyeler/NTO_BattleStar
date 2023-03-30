@@ -115,12 +115,27 @@
       <tbody>
         {% for user in all_users %}
         <tr>
-            <td>{{ user['username'] }}</td>>
-            <td>{{ user['field1']}}</td>
-            <td><img class="graph" src="{{ user['graf']}}"></td>
-            <td><img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user['username'])) }}" /></td>
-            <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
-            <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
+            <td>{{ user['username'] }}</td>
+            <form method="post">
+                <input type="hidden" name="username" value="{{ user['username'] }}">
+                <td>
+                    <form method="post">
+                        <div id="start">
+                          <p class="start">Начало</p>
+                          <input class="input" type="text" name="start">
+                        </div>
+                        <div id="start1">
+                          <p class="start">Конец</p>
+                          <input class="input" type="text" name="end">
+                        </div>
+                        <button type="submit" class="cost">Получить данные</button>
+                  </form>
+                </td>
+                <td><img class="graph" src="{{ user['graf'] }}"></td>
+                <td><img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user['username'])) }}"></td>
+                <td><input class="btn1" type="button" value="On" id="onoff" name="action"></td>
+                <td><input class="btn1" type="button" value="On" id="onoff" anme="action"></td>
+            </form>
         </tr>
         {% endfor %}
       </tbody>
@@ -138,11 +153,6 @@
           
         }
       }
-
-
-    
       </script>
-      
-      
   </body>
 </html>

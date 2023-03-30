@@ -9,17 +9,21 @@ def count_watts(filename: str, begin: str, end: str):
     flag = 0
     start = convert_to_secs(begin)
     finish = convert_to_secs(end)
+    prev = start
     summa = 0
-    for _ in ls:
-        cur = convert_to_secs(_)
+    for i in range(len(ls)):
+        cur = convert_to_secs(ls[i])
         if finish < cur:
             break
         if flag:
-            summa += _[-1]
+            summa += ls[i][-1]*12*(cur-prev)
+            prev = cur
             continue
         if finish < cur:
             break
         if start <= cur:
-            summa += _[4]
+            summa += ls[i][-1] * 12 * (cur - prev)
+            prev = cur
             flag = 1
-    return (summa)
+    kwatts_per_hour = summa / 36 * 10
+    return (kwatts_per_hour)
