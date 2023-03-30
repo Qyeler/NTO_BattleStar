@@ -1,6 +1,6 @@
 import base64
 from io import BytesIO
-from flask import Flask
+from flask import Flask, send_file
 import os
 import io
 from flask import request, redirect, render_template
@@ -138,7 +138,10 @@ def userboard(username):
     img_url = url_for('static', filename=f"images/{username}.png")
     costpdf= calcsum.count_watts(f"user_data/{username}.txt","0,0,0,0", "30,0,0,0")
     doPdf.create_pdf_with_image_and_sum(f"static/images/{username}.png",f"static/pdf/{username}.pdf",5,costpdf)
-    return render_template('user_dashboard.html', img_url=img_url, user=username)
+    filename = f"user_data/userStatus/{username}.txt"
+    with open(filename, 'r') as f:
+        data = f.read()
+    return render_template('user_dashboard.html', img_url=img_url, user=username,status=data.split(',')[0])
 
 
 # @app.route('/dashboard/<username>')
@@ -293,7 +296,18 @@ def button_pressed():
 #         'field2': "asfsaafsasasdadaf",  # заполни данные для поля 2
 #     }
 #     return render_template('user_stats.html', username=admin_username, user_username=user_username, user_stats=user_stats)
-
+@app.route('/download')
+def download_file():
+    user = request.args.get('username')
+    print('Пользователь {} загрузил выписку'.format(user))
+    filename = f"user_data/userStatus/{user}.txt"
+    with open(filename, 'r') as f:
+        data = f.read()
+    first_status, second_status = data.split(',')
+    second_status='off'
+    with open(filename, 'w') as f:
+        f.write(f"{first_status},{second_status}")
+    return send_file('static/pdf/{}.pdf'.format(user), as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=1)

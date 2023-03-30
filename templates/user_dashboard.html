@@ -245,16 +245,19 @@ font-weight: bold;
     <p class="input" type="text"></p>
     {% endif %}
     </div>
-
-    
+        <div>
+            <p>
+                Ваш статус:{{ status }}
+            </p>
+        </div>
   </div>
     </div>
     <div id="nal">
-      <a class="nal" href="{{ url_for('static', filename='/pdf/{}.pdf'.format(user)) }}" download>Получить выписку</a></div>
-
+            <input type="hidden" name="username" value="{{ user['username'] }}">
+          <a class="nal" href="{{ url_for('download_file',username=user) }}" download>Получить выписку</a>
+    </div>
 
     <!-- <p class="acInfo">Stat {{user}}</p> -->
-
     <!-- <img class="graph" src="data:image/png;base64,{{ img_url }}" /> -->
   </body>
 </html>
