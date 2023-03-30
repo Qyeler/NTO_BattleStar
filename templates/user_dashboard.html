@@ -38,7 +38,7 @@
         width: 500px;
         height: auto;
         margin-top: 5%;
-        margin-left: 7%;
+        margin-left: 8%;
         
       }
 
@@ -111,7 +111,7 @@
         height: 150px;
         background: #000;
         border-radius: 15px;
-        margin-left: 5%;
+        margin-left: 4%;
         margin-top: 1.5%;
         
       }
@@ -127,7 +127,7 @@
 
       #start2 .input {
         font-size: 24px;
-        width: 250px;
+        width: 345px;
         padding-left: 25px;
         padding-right: 25px;
         height: 40px;
@@ -153,8 +153,7 @@
       }
       #nal {
         position: absolute;
-margin-left: auto;
-margin-right: auto;
+
 left: 36.5%;
 text-align: center;
 top: 128.5%;
@@ -173,7 +172,7 @@ font-weight: bold;
       .cost  {
         position: absolute;
         margin-top: -12.5%;
-        left: -12%;
+        left: -12.5%;
         font-weight: bold;
         font-size: 24px;
         color: black;
@@ -194,6 +193,42 @@ font-weight: bold;
         margin-top: 46%;
         margin-left: 5%;
         display: flex;
+      }
+
+      #status {
+        position: absolute;
+        top: 119%;
+        left: 66.5%;
+        border-radius: 15px;
+        background: #000;
+        color: white;
+        width: 400px;
+        height: 150px;
+        
+      }
+
+      #status .status {
+        color: white;
+        margin-left: 10%;
+        margin-top: 5%;
+        font-size: 24px;
+        font-weight: bold;
+        padding-top: 3%;
+        
+      }
+
+      #status .stat {
+        font-size: 24px;
+        width: 345px;
+        padding-left: 25px;
+        padding-right: 25px;
+        height: 40px;
+        border: none;
+          color: white;
+        border-radius: 25px;
+        margin-top: 1.5%;
+        margin-bottom: 5%;
+        margin-left: 5%;
       }
     </style>
   </head>
@@ -245,17 +280,24 @@ font-weight: bold;
     <p class="input" type="text"></p>
     {% endif %}
     </div>
-        <div>
+        <!-- <div>
             <p>
                 Ваш статус:{{ status }}
             </p>
-        </div>
+        </div> -->
   </div>
     </div>
     <div id="nal">
-            <input type="hidden" name="username" value="{{ user['username'] }}">
+          
           <a class="nal" href="{{ url_for('download_file',username=user) }}" download>Получить выписку</a>
     </div>
+
+    <div id="status">
+      <p class="status">Ваш статус</p>
+      <p class="stat">{{ status }}</p>
+    </div>
+
+    <input type="hidden" name="username" value="{{ user['username'] }}">
 
     <!-- <p class="acInfo">Stat {{user}}</p> -->
     <!-- <img class="graph" src="data:image/png;base64,{{ img_url }}" /> -->
