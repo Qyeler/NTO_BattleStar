@@ -147,10 +147,17 @@
                 </td>
                 <td><img class="graph" src="{{ user['graf'] }}"></td>
                 <td><img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user['username'])) }}"></td>
-            <form method="POST" action="{{ url_for('button_pressed') }}">
+            <form method="post" action="{{ url_for('button_pressed') }}">
                  <input type="hidden" name="username" value="{{ user['username'] }}">
-                <td><input class="btn1" onclick="onoff(this)" type="button" value="{{ user['on/off']}}" id="onoff" name="action">
+                <input type="hidden" name="admin" value="{{ username }}">
+                <input type="hidden" name="action" value="1">
+                    <td><input class="btn1" type="button" value="{{ user['on/off']}}" id="onoff" name="action">
                 <button value="{{user['on/off']}}">мурмурмур</button></td>
+                </form>
+             <form method="post" action="{{ url_for('button_pressed') }}">
+                 <input type="hidden" name="username" value="{{ user['username'] }}">
+                  <input type="hidden" name="action" value="2">
+                <input type="hidden" name="admin" value="{{ username }}">
                 <td><input class="btn1" type="button" value="{{ user['payinfo']}}" id="onoff" name="action">
                 <button value="{{ user['payinfo']}}">veh2</button></td>
             </form>
@@ -159,18 +166,6 @@
       </tbody>
     </table>
     <script type="text/javascript">
-      function onoff(_this){
-        currentvalue = document.getElementById('onoff').value;
-        if(_this.value == "Off"){
-          _this.value="On";
-          _this.style.backgroundColor = "#44944A";
-          
-        } else if (_this.value == "On"){
-          _this.value="Off";
-          _this.style.backgroundColor = "red";
-          
-        }
-      }
       </script>
   </body>
 </html>

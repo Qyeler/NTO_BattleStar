@@ -259,18 +259,24 @@ def admin_dashboard(admin_username):
     return render_template('admin_dashboard.html', username=admin_username, all_users=all_users)
 @app.route('/button_pressed', methods=['GET', 'POST'])
 def button_pressed():
-    username=request.form(['username'])
+    username=request.form['username']
     filename = f"user_data/userStatus/{username}.txt"
     with open(filename, 'r') as f:
         data = f.read()
     first_status, second_status = data.split(',')
-    if first_status.strip() == 'on':
-        first_status = 'off'
-    if second_status.strip() == 'on':
-        second_status = 'off'
+    if request.form['action']=='1':
+        if(first_status == 'off'):
+            first_status='on'
+        else:
+            first_status = 'off'
+    if request.form['action']=='2':
+        if (second_status == 'off'):
+            second_status = 'on'
+        else:
+            second_status = 'off'
     with open(filename, 'w') as f:
         f.write(f"{first_status}, {second_status}")
-    return redirect(url_for('admin_dashboard', admin_username=username))
+    return redirect(url_for('admin_dashboard', admin_username=request.form['admin']))
 # @app.route('/admin_dashboard/<admin_username>/user_stats/<user_username>')
 # def user_stats(admin_username, user_username):
 #     if 'username' not in session or session['username'] != admin_username:
