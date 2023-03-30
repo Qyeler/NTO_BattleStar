@@ -118,7 +118,7 @@
             <td>{{ user['username'] }}</td>>
             <td>{{ user['field1']}}</td>
             <td><img class="graph" src="{{ user['graf']}}"></td>
-            <td><img class="graph" src="{{ user['graf2']}}" /> </td>
+            <td><img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user['username'])) }}" /></td>
             <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
             <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
         </tr>

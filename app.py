@@ -199,6 +199,8 @@ def admin_dashboard(admin_username):
         plt.savefig(img, format='png')
         img.seek(0)
         filename = f"user_data/temperature/{username}.txt"
+        img_url = base64.b64encode(img.read()).decode()
+
         with open(filename, 'r') as file:
             data2 = file.readlines()
         xtmp = []
@@ -226,7 +228,6 @@ def admin_dashboard(admin_username):
         plt.savefig(img_path2, format='png')
         img_url2 = url_for('static', filename=f"images/tempgraf/{username}.png")
 
-        img_url = base64.b64encode(img.read()).decode()
         start_str="0,0,0,0"
         end_str="30,0,0,0"
         cost = calcsum.count_watts(f"user_data/{username}.txt", start_str, end_str)
