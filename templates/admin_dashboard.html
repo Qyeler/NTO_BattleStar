@@ -104,12 +104,12 @@
     <table>
       <thead>
         <tr>
-          <th>Username</th>
-          <th>Data1</th>
-          <th>Data2</th>
-          <th>Data4</th>
-          <th>Data3</th>
-          
+            <th>Username</th>
+            <th>Cost segment</th>
+            <th>Power statistic</th>
+            <th>Temperature statistic</th>
+            <th>Disconect(y/n)</th>
+            <th>Paid/not paid</th>
         </tr>
       </thead>
       <tbody>
@@ -118,8 +118,9 @@
             <td>{{ user['username'] }}</td>>
             <td>{{ user['field1']}}</td>
             <td><img class="graph" src="{{ user['graf']}}"></td>
-        <td>data4</td>
-        <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
+            <td><img class="graph" src="{{ user['graf2']}}" /> </td>
+            <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
+            <td><input class="btn1" type="button" value="On" id="onoff" onclick="onoff(this);"></td>
         </tr>
         {% endfor %}
       </tbody>

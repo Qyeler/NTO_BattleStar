@@ -18,7 +18,7 @@ app.secret_key = 'mysecretkey'
 
 
 @app.route('/')
-def hello_world():  # put application's code here
+def hello_world():
     return 'Hello World!'
 
 
@@ -32,16 +32,13 @@ def login():
             access_level = users[username]['access_level']
             if access_level == 'admin':
                 session['username'] = username
-                # показать информацию для администратора
                 return redirect(url_for('admin_dashboard', admin_username=username))
             elif access_level == 'operator':
                 session['username'] = username
 
-                # показать информацию для оператора
                 return render_template('operator_dashboard.html', username=username)
             else:
                 session['username'] = username
-                # показать информацию для пользователя
                 user_file = os.path.join('user_data', f'{username}.txt')
                 if not os.path.exists(user_file):
                     return f'User {username} not found'
@@ -52,7 +49,6 @@ def login():
             return redirect(url_for('userboard', username=username))
         else:
             return render_template('login.html', message="invalid")
-            # return 'Invalid username or password'
     else:
 
         return render_template('login.html')
@@ -83,12 +79,9 @@ def userboard(username):
     if request.method == 'POST':
         start_str = request.form['start']
         end_str = request.form['end']
-        # Convert start and end strings to datetime objects
-        # Calculate cost for the period using your custom function
         print(start_str)
         print(end_str)
         cost = calcsum.count_watts(f"user_data/{username}.txt",start_str, end_str)
-        # Render the template with the cost value
         print(cost)
         img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла
         return render_template('user_dashboard.html', user=username,img_url=img_url, cost=cost)
@@ -96,7 +89,6 @@ def userboard(username):
     filename = f"user_data/{username}.txt"
     with open(filename, 'r') as file:
         data = file.readlines()
-    #calcsum(f"user_data/{username}.txt")
     x = []
     y = []
     sr=0.0
@@ -134,8 +126,8 @@ def userboard(username):
     ax2.set_title('Temperature trend')
     plt.xticks(rotation=45)
     img_path2 = f"static/images/tempgraf/{username}.png"
-    plt.savefig(img_path2, format='png')  # сохраняем изображение в файл
-    img_url2 = url_for('static', filename=f"images/tempgraf/{username}.png")  # формируем url для файла\
+    plt.savefig(img_path2, format='png')
+    img_url2 = url_for('static', filename=f"images/tempgraf/{username}.png")
 
     fig, ax = plt.subplots()
     ax.plot(x, y)
@@ -143,9 +135,9 @@ def userboard(username):
     ax.set_ylabel('Power')
     ax.set_title('Power Usage')
     plt.xticks(rotation=45)
-    img_path = f"static/images/{username}.png"  # путь к файлу на сервере
-    plt.savefig(img_path, format='png')  # сохраняем изображение в файл
-    img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла\
+    img_path = f"static/images/{username}.png"
+    plt.savefig(img_path, format='png')
+    img_url = url_for('static', filename=f"images/{username}.png")
     costpdf= calcsum.count_watts(f"user_data/{username}.txt","0,0,0,0", "30,0,0,0")
     doPdf.create_pdf_with_image_and_sum(f"static/images/{username}.png",f"static/pdf/{username}.pdf",5,costpdf)
     return render_template('user_dashboard.html', img_url=img_url, user=username)
@@ -159,13 +151,10 @@ def userboard(username):
 #         users = load_users()
 #         access_level = users[username]['access_level']
 #         if access_level == 'admin':
-#             # показать информацию для администратора
 #             return admin_dashboard(username)
 #         elif access_level == 'operator':
-#             # показать информацию для оператора
 #             return render_template('operator_dashboard.html', username=username)
 #         else:
-#             # показать информацию для пользователя
 #             user_file = os.path.join('user_data', f'{username}.txt')
 #             if not os.path.exists(user_file):
 #                 return f'User {username} not found'
@@ -208,18 +197,46 @@ def admin_dashboard(admin_username):
         img = io.BytesIO()
         plt.savefig(img, format='png')
         img.seek(0)
+        filename = f"user_data/temperature/{username}.txt"
+        with open(filename, 'r') as file:
+            data2 = file.readlines()
+        xtmp = []
+        ytmp = []
+        sr = 0.0
+        for line in data2:
+            values = line.strip().split(',')
+            time = float(float(
+                float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(
+                    values[3])) / 3600)
+            if (float(time) < float(sr) + 0.2):
+                continue
+            sr = float(time)
+            temp = float(values[4])
+            xtmp.append(time)
+            ytmp.append(temp)
+        print(ytmp)
+        fig2, ax2 = plt.subplots()
+        ax2.plot(xtmp, ytmp)
+        ax2.set_xlabel('Time')
+        ax2.set_ylabel('Temperature')
+        ax2.set_title('Temperature trend')
+        plt.xticks(rotation=45)
+        img_path2 = f"static/images/tempgraf/{username}.png"
+        plt.savefig(img_path2, format='png')
+        img_url2 = url_for('static', filename=f"images/tempgraf/{username}.png")
 
-        # Передаем путь к изображению в шаблон
         img_url = base64.b64encode(img.read()).decode()
-
+        start_str="0,0,0,0"
+        end_str="30,0,0,0"
+        cost = calcsum.count_watts(f"user_data/{username}.txt", start_str, end_str)
         user_info = {
             'username': username,
-            'field1': "template(to be continue) money/last month",  # заполни данные для поля 1
+            'field1': str(cost),  # заполни данные для поля 1
             'graf': f'data:image/png;base64,{img_url}',  # заполни данные для поля 2
-            'field2':"on/off"
+            'graf2':img_path2,
         }
         all_users.append(user_info)
-    print(all_users)
+    print(all_users[0]['graf2'])
     return render_template('admin_dashboard.html', username=admin_username, all_users=all_users)
 
 
