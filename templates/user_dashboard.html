@@ -112,6 +112,7 @@
         background: #000;
         border-radius: 15px;
         margin-left: 5%;
+        margin-top: 1.5%;
         
       }
 
@@ -156,7 +157,8 @@ margin-left: auto;
 margin-right: auto;
 left: 36.5%;
 text-align: center;
-top: 126%;
+top: 128.5%;
+font-weight: bold;
 font-weight: bold;
         font-size: 24px;
         color: black;
@@ -170,7 +172,7 @@ font-weight: bold;
 
       .cost  {
         position: absolute;
-        margin-top: -14%;
+        margin-top: -12.5%;
         left: -12%;
         font-weight: bold;
         font-size: 24px;
@@ -248,7 +250,7 @@ font-weight: bold;
   </div>
     </div>
     <div id="nal">
-      <a class="nal" href="">Получить выписку</a></div>
+      <a class="nal" href="{{ url_for('static', filename='/pdf/{}.pdf'.format(user)) }}" download>Получить выписку</a></div>
 
 
     <!-- <p class="acInfo">Stat {{user}}</p> -->
