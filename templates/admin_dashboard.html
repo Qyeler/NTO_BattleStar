@@ -84,7 +84,7 @@
         border-radius: 25px;
         border: none;
         margin: 0 auto;
-        background-color: #44944A;
+        background-color: black;
         color: white;
         font-family: 'Titillium Web', sans-serif;
       }
@@ -102,6 +102,18 @@
       input {
         border-radius: 5px;
         padding: 5px 10px;
+      }
+
+      .btn2 {
+        background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden; 
+        position: absolute;
+        margin-left: -5%;
+        width: 80px;
+        height: 40px;
       }
   </style>
   <body>
@@ -135,14 +147,14 @@
                 <input type="hidden" name="username" value="{{ user['username'] }}">
                 <td>
                     <div id="start">
-                      <p class="start">Начало</p>
+                      <p class="start">Start</p>
                       <input class="input" type="text" name="start">
                     </div>
                     <div id="start1">
-                      <p class="start">Конец</p>
+                      <p class="start">End</p>
                       <input class="input" type="text" name="end">
                     </div>
-                    <button type="submit" class="cost">Получить данные</button>
+                    <button type="submit" class="cost">Get information</button>
                 </form>
                 </td>
                 <td><img class="graph" src="{{ user['graf'] }}"></td>
@@ -152,20 +164,21 @@
                 <input type="hidden" name="admin" value="{{ username }}">
                 <input type="hidden" name="action" value="1">
                     <td><input class="btn1" type="button" value="{{ user['on/off']}}" id="onoff" name="action">
-                <button value="{{user['on/off']}}">мурмурмур</button></td>
+                <button onclick="changeColor()" class="btn2" value="{{user['on/off']}}"></button></td>
                 </form>
              <form method="post" action="{{ url_for('button_pressed') }}">
                  <input type="hidden" name="username" value="{{ user['username'] }}">
                   <input type="hidden" name="action" value="2">
                 <input type="hidden" name="admin" value="{{ username }}">
                 <td><input class="btn1" type="button" value="{{ user['payinfo']}}" id="onoff" name="action">
-                <button value="{{ user['payinfo']}}">veh2</button></td>
+                <button class="btn2" value="{{ user['payinfo']}}"></button></td>
             </form>
         </tr>
         {% endfor %}
       </tbody>
     </table>
     <script type="text/javascript">
+      
       </script>
   </body>
 </html>
