@@ -1,7 +1,7 @@
 def count_watts(filename: str, begin: str, end: str):
     def convert_to_secs(date: list):
         return date[3] + 60 * (date[2] + 60 * (date[1] + 24 * date[0]))
-
+    print(begin)
     begin = list(map(int, begin.split(',')))
     end = list(map(int, end.split(',')))
     ls = open(filename, 'r').read().split('\n')[:-1]

@@ -137,7 +137,7 @@ def userboard(username):
     plt.savefig(img_path, format='png')
     img_url = url_for('static', filename=f"images/{username}.png")
     costpdf= calcsum.count_watts(f"user_data/{username}.txt","0,0,0,0", "30,0,0,0")
-    doPdf.create_pdf_with_image_and_sum(f"static/images/{username}.png",f"static/pdf/{username}.pdf",5,costpdf)
+    doPdf.create_pdf_with_image_and_sum(f"static/images/{username}.png",f"static/pdf/{username}.pdf",5,costpdf,costpdf*1.78)
     filename = f"user_data/userStatus/{username}.txt"
     with open(filename, 'r') as f:
         data = f.read()
