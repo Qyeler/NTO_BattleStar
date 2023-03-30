@@ -94,18 +94,48 @@ def userboard(username):
         return render_template('user_dashboard.html', user=username,img_url=img_url, cost=cost)
     username = username
     filename = f"user_data/{username}.txt"
-
     with open(filename, 'r') as file:
         data = file.readlines()
     #calcsum(f"user_data/{username}.txt")
     x = []
     y = []
+    sr=0.0
     for line in data:
         values = line.strip().split(',')
-        time = int(values[0]) * 24 * 60 * 60 + int(values[1]) * 60 * 60 + int(values[2]) * 60 + int(values[3])
+        time = float(float(float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(values[3])) / 3600)
+        if (float(time) < float(sr) + 0.2):
+            continue
+        sr = float(time)
+        print(time)
         power = float(values[4])
         x.append(time)
         y.append(power)
+
+    filename = f"user_data/temperature/{username}.txt"
+    with open(filename, 'r') as file:
+        data2 = file.readlines()
+    xtmp=[]
+    ytmp=[]
+    sr = 0.0
+    for line in data2:
+        values = line.strip().split(',')
+        time = float(float(float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(values[3])) / 3600)
+        if (float(time) < float(sr) + 0.2):
+            continue
+        sr = float(time)
+        temp = float(values[4])
+        xtmp.append(time)
+        ytmp.append(temp)
+    print(ytmp)
+    fig2,ax2=plt.subplots()
+    ax2.plot(xtmp, ytmp)
+    ax2.set_xlabel('Time')
+    ax2.set_ylabel('Temperature')
+    ax2.set_title('Temperature trend')
+    plt.xticks(rotation=45)
+    img_path2 = f"static/images/tempgraf/{username}.png"
+    plt.savefig(img_path2, format='png')  # сохраняем изображение в файл
+    img_url2 = url_for('static', filename=f"images/tempgraf/{username}.png")  # формируем url для файла\
 
     fig, ax = plt.subplots()
     ax.plot(x, y)
@@ -158,10 +188,13 @@ def admin_dashboard(admin_username):
             data = file.readlines()
         x = []
         y = []
-
+        sr=0.0
         for line in data:
             values = line.strip().split(',')
-            time = int(values[0]) * 24 * 60 * 60 + int(values[1]) * 60 * 60 + int(values[2]) * 60 + int(values[3])
+            time = float(float(float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(values[3]))/3600)
+            if(float(time)<float(sr)+0.2):
+                continue
+            sr=float(time)
             power = float(values[4])
             x.append(time)
             y.append(power)

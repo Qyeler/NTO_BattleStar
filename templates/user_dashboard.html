@@ -194,6 +194,9 @@ margin-bottom: 10%;
       <div class="graph">
         <img class="graph" src="{{ img_url }}" />
       </div>
+        <div class="graph">
+        <img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user)) }}" />
+      </div>
       <div id="block">
         <form method="post">
           <div id="start">
