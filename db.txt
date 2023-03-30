@@ -5,3 +5,4 @@ test4:test1:user
 test5:test1:user
 test6:test1:user
 username2:password2:admin
+owner:owner:operator

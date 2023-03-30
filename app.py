@@ -35,8 +35,7 @@ def login():
                 return redirect(url_for('admin_dashboard', admin_username=username))
             elif access_level == 'operator':
                 session['username'] = username
-
-                return render_template('operator_dashboard.html', username=username)
+                return redirect(url_for('owner_dashboard', owner_name=username))
             else:
                 session['username'] = username
                 user_file = os.path.join('user_data', f'{username}.txt')
@@ -308,6 +307,10 @@ def download_file():
     with open(filename, 'w') as f:
         f.write(f"{first_status},{second_status}")
     return send_file('static/pdf/{}.pdf'.format(user), as_attachment=True)
+@app.route('/owner_name/<owner_name>', methods=['GET', 'POST'])
+def owner_dashboard(owner_name):
+    all_users=load_users()
+    return render_template('operator_dashboard.html', username=owner_name, all_users=all_users)
 
 if __name__ == '__main__':
     app.run(debug=1)
