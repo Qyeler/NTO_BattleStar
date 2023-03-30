@@ -129,22 +129,6 @@
                     </div>
                     <button type="submit" class="cost">Получить данные</button>
                 </form>
-                      <div id="start2">
-                        <p class="start">Энергопотребление</p>
-                        {% if cost is not none %}
-                        <p class="input" type="text">{{ cost }}</p>
-                        {% else %}
-                        <p class="input" type="text"></p>
-                        {% endif %}
-                    </div>
-                  <div id="start2">
-                        <p class="start">Стоимость за период</p>
-                        {% if totalscore is not none %}
-                        <p class="input" type="text">{{ totalscore }}</p>
-                        {% else %}
-                        <p class="input" type="text"></p>
-                        {% endif %}
-                  </div>
                 </td>
                 <td><img class="graph" src="{{ user['graf'] }}"></td>
                 <td><img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user['username'])) }}"></td>
