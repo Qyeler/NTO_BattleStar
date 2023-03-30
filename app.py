@@ -98,7 +98,6 @@ def userboard(username):
         if (float(time) < float(sr) + 0.2):
             continue
         sr = float(time)
-        print(time)
         power = float(values[4])
         x.append(time)
         y.append(power)
@@ -118,7 +117,6 @@ def userboard(username):
         temp = float(values[4])
         xtmp.append(time)
         ytmp.append(temp)
-    print(ytmp)
     fig2,ax2=plt.subplots()
     ax2.plot(xtmp, ytmp)
     ax2.set_xlabel('Time')
@@ -227,7 +225,6 @@ def admin_dashboard(admin_username):
             temp = float(values[4])
             xtmp.append(time)
             ytmp.append(temp)
-        print(ytmp)
         fig2, ax2 = plt.subplots()
         ax2.plot(xtmp, ytmp)
         ax2.set_xlabel('Time')
@@ -255,7 +252,6 @@ def admin_dashboard(admin_username):
             'payinfo': payinfo
         }
         all_users.append(user_info)
-    print(all_users[0]['graf2'])
     return render_template('admin_dashboard.html', username=admin_username, all_users=all_users)
 @app.route('/button_pressed', methods=['GET', 'POST'])
 def button_pressed():
@@ -270,12 +266,14 @@ def button_pressed():
         else:
             first_status = 'off'
     if request.form['action']=='2':
-        if (second_status == 'off'):
+        print(second_status)
+        if second_status == 'off':
             second_status = 'on'
         else:
             second_status = 'off'
     with open(filename, 'w') as f:
-        f.write(f"{first_status}, {second_status}")
+        print(first_status,second_status)
+        f.write(f"{first_status},{second_status}")
     return redirect(url_for('admin_dashboard', admin_username=request.form['admin']))
 # @app.route('/admin_dashboard/<admin_username>/user_stats/<user_username>')
 # def user_stats(admin_username, user_username):
