@@ -115,27 +115,41 @@
       <tbody>
         {% for user in all_users %}
         <tr>
+        <form method="post">
             <td>{{ user['username'] }}</td>
-            <form method="post">
                 <input type="hidden" name="username" value="{{ user['username'] }}">
                 <td>
-                    <form method="post">
-                        <div id="start">
-                          <p class="start">Начало</p>
-                          <input class="input" type="text" name="start">
-                        </div>
-                        <div id="start1">
-                          <p class="start">Конец</p>
-                          <input class="input" type="text" name="end">
-                        </div>
-                        <button type="submit" class="cost">Получить данные</button>
-                  </form>
+                    <div id="start">
+                      <p class="start">Начало</p>
+                      <input class="input" type="text" name="start">
+                    </div>
+                    <div id="start1">
+                      <p class="start">Конец</p>
+                      <input class="input" type="text" name="end">
+                    </div>
+                    <button type="submit" class="cost">Получить данные</button>
+                </form>
+                      <div id="start2">
+                        <p class="start">Энергопотребление</p>
+                        {% if cost is not none %}
+                        <p class="input" type="text">{{ cost }}</p>
+                        {% else %}
+                        <p class="input" type="text"></p>
+                        {% endif %}
+                    </div>
+                  <div id="start2">
+                        <p class="start">Стоимость за период</p>
+                        {% if totalscore is not none %}
+                        <p class="input" type="text">{{ totalscore }}</p>
+                        {% else %}
+                        <p class="input" type="text"></p>
+                        {% endif %}
+                  </div>
                 </td>
                 <td><img class="graph" src="{{ user['graf'] }}"></td>
                 <td><img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user['username'])) }}"></td>
                 <td><input class="btn1" type="button" value="On" id="onoff" name="action"></td>
                 <td><input class="btn1" type="button" value="On" id="onoff" anme="action"></td>
-            </form>
         </tr>
         {% endfor %}
       </tbody>

@@ -79,12 +79,11 @@ def userboard(username):
     if request.method == 'POST':
         start_str = request.form['start']
         end_str = request.form['end']
-        print(start_str)
-        print(end_str)
         cost = calcsum.count_watts(f"user_data/{username}.txt",start_str, end_str)
-        print(cost)
         img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла
-        totalscore=cost*1,74
+        totalscore = cost * 1.74
+        cost = round(cost, 2)
+        totalscore = round(totalscore, 2)
         return render_template('user_dashboard.html', user=username,img_url=img_url, cost=cost,totalscore=totalscore)
     username = username
     filename = f"user_data/{username}.txt"
@@ -168,6 +167,16 @@ def userboard(username):
 def admin_dashboard(admin_username):
     if 'username' not in session or session['username'] != admin_username:
         return redirect(url_for('login'))
+    if request.method == 'POST':
+        user_str=request.form['username']
+        start_str = request.form['start']
+        end_str = request.form['end']
+        cost = calcsum.count_watts(f"user_data/{user_str}.txt",start_str, end_str)
+        img_url = url_for('static', filename=f"images/{user_str}.png")  # формируем url для файла
+        totalscore=cost*1,74
+
+        return render_template('calc info.html', username=admin_username, cost=cost,totalscore=totalscore)
+
     users = load_users()
     all_users = []
     for username, data in users.items():
