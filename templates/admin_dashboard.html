@@ -132,8 +132,11 @@
                 </td>
                 <td><img class="graph" src="{{ user['graf'] }}"></td>
                 <td><img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user['username'])) }}"></td>
+            <form method="POST" action="{{ url_for('button_pressed') }}">
+                 <input type="hidden" name="username" value="{{ user['username'] }}">
                 <td><input class="btn1" type="button" value="{{ user['on/off']}}" id="onoff" name="action"></td>
                 <td><input class="btn1" type="button" value="{{ user['payinfo']}}" id="onoff" name="action"></td>
+            </form>
         </tr>
         {% endfor %}
       </tbody>
