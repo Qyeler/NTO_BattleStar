@@ -2,22 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Выписка</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+    background-color: #E9E9E9;
+    font-family: 'Inter', sans-serif;
+}
+        #srt {
+            margin: 0 auto;
+            width: 70%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #start3, #start2{
+            font-size: 24px;
+            text-align: center;
+            
+        }
+
+        #start2 .input, #start3 .input {
+            background: #000;
+            color: white;
+            border-radius: 15px;
+            padding: 5px 30px;
+            margin: 0 auto;
+            width: 40%;
+            max-width: 60%;
+        }
+    </style>
+
+    
 </head>
+    <div id="srt">
         <div id="start2">
             <p class="start">Энергопотребление</p>
             {% if cost is not none %}
-            <p class="input" type="text">{{ cost }}</p>
+            <p class="input" type="text">{{ cost }} кВт</p>
             {% else %}
             <p class="input" type="text"></p>
             {% endif %}
         </div>
-      <div id="start2">
+      <div id="start3">
             <p class="start">Стоимость за период</p>
             {% if totalscore is not none %}
-            <p class="input" type="text">{{ totalscore }}</p>
+            <p class="input" type="text">{{ totalscore }} руб.</p>
             {% else %}
             <p class="input" type="text"></p>
             {% endif %}
       </div>
+    </div>
 </html>
