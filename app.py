@@ -84,7 +84,8 @@ def userboard(username):
         cost = calcsum.count_watts(f"user_data/{username}.txt",start_str, end_str)
         print(cost)
         img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла
-        return render_template('user_dashboard.html', user=username,img_url=img_url, cost=cost)
+        totalscore=cost*1,74
+        return render_template('user_dashboard.html', user=username,img_url=img_url, cost=cost,totalscore=totalscore)
     username = username
     filename = f"user_data/{username}.txt"
     with open(filename, 'r') as file:
@@ -233,7 +234,7 @@ def admin_dashboard(admin_username):
             'username': username,
             'field1': str(cost),  # заполни данные для поля 1
             'graf': f'data:image/png;base64,{img_url}',  # заполни данные для поля 2
-            'graf2':img_path2,
+            'graf2':f'data:image/png;base64,{img_url2}',
         }
         all_users.append(user_info)
     print(all_users[0]['graf2'])
