@@ -47,7 +47,7 @@
         height: 150px;
         background: #000;
         border-radius: 15px;
-        margin-left: 50%;
+        margin-left: 5%;
         
       }
 
@@ -80,7 +80,7 @@
         height: 150px;
         background: #000;
         border-radius: 15px;
-        margin-left: 50%;
+        margin-left: 5%;
         
       }
 
@@ -111,7 +111,7 @@
         height: 150px;
         background: #000;
         border-radius: 15px;
-        margin-left: 50%;
+        margin-left: 5%;
         
       }
 
@@ -154,15 +154,24 @@
         position: absolute;
 margin-left: auto;
 margin-right: auto;
-left: 35%;
+left: 36.5%;
 text-align: center;
-top: 100%;
-margin-bottom: 10%;
+top: 126%;
+font-weight: bold;
+        font-size: 24px;
+        color: black;
+        border: none;
+        width: 400px;
+        height: 50px;
+        background: white;
+        border-radius: 15px;
+        
       }
 
       .cost  {
-        margin-top: 5%;
-        margin-bottom: 2%;
+        position: absolute;
+        margin-top: -14%;
+        left: -12%;
         font-weight: bold;
         font-size: 24px;
         color: black;
@@ -179,7 +188,10 @@ margin-bottom: 10%;
       }
 
       #block {
-        justify-content: space-between;
+        position: absolute;
+        margin-top: 46%;
+        margin-left: 5%;
+        display: flex;
       }
     </style>
   </head>
@@ -197,36 +209,43 @@ margin-bottom: 10%;
         <div class="graph">
         <img class="graph" src="{{ url_for('static', filename='/images/tempgraf/{}.png'.format(user)) }}" />
       </div>
-      <div id="block">
-        <form method="post">
-          <div id="start">
-            <p class="start">Начало</p>
-            <input class="input" type="text" name="start">
-          </div>
-
-          <div id="start1">
-            <p class="start">Конец</p>
-            <input class="input" type="text" name="end">
-          </div>
-
-          <button type="submit" class="btn">Получить данные</button>
-        </form>
-
-    <div id="start2">
-      <p class="start">Стоимость за период</p>
-      {% if cost is not none %}
-      <p class="input" type="text">{{ cost }}</p>
-      {% else %}
-      <p class="input" type="text"></p>
-      {% endif %}
-    </div>
-
-
       
-    </div>
     
     </div>
+    <div id="block">
+      <form method="post">
+        <div id="start">
+          <p class="start">Начало</p>
+          <input class="input" type="text" name="start">
+        </div>
+
+        <div id="start1">
+          <p class="start">Конец</p>
+          <input class="input" type="text" name="end">
+        </div>
+
+        <button type="submit" class="cost">Получить данные</button>
+      </form>
+
+  <div id="start2">
+    <p class="start">Энергопотребление</p>
+    {% if cost is not none %}
+    <p class="input" type="text">{{ cost }}</p>
+    {% else %}
+    <p class="input" type="text"></p>
+    {% endif %}
+  </div>
+  <div id="start2">
+    <p class="start">Стоимость за период</p>
+    {% if totalscore is not none %}
+    <p class="input" type="text">{{ totalscore }}</p>
+    {% else %}
+    <p class="input" type="text"></p>
+    {% endif %}
+    </div>
+
     
+  </div>
     </div>
     <div id="nal">
       <a class="nal" href="">Получить выписку</a></div>
