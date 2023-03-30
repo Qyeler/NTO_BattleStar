@@ -241,11 +241,18 @@ def admin_dashboard(admin_username):
         start_str="0,0,0,0"
         end_str="30,0,0,0"
         cost = calcsum.count_watts(f"user_data/{username}.txt", start_str, end_str)
+        filename = f"user_data/userStatus/{username}.txt"
+        with open(filename, 'r') as file:
+            data = file.readlines()
+        onoff=data[0].split(',')[0]
+        payinfo=data[0].split(',')[1]
         user_info = {
             'username': username,
             'field1': str(cost),  # заполни данные для поля 1
             'graf': f'data:image/png;base64,{img_url}',  # заполни данные для поля 2
             'graf2':f'data:image/png;base64,{img_url2}',
+            'on/off':onoff,
+            'payinfo': payinfo
         }
         all_users.append(user_info)
     print(all_users[0]['graf2'])
