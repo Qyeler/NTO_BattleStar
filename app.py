@@ -1,5 +1,7 @@
 import base64
 from io import BytesIO
+from random import randint
+
 from flask import Flask, send_file
 import os
 import io
@@ -181,7 +183,7 @@ def admin_dashboard(admin_username):
     users = load_users()
     all_users = []
     for username, data in users.items():
-        if(users[username]['access_level']=="admin" or users[username]['access_level']=="oper"):
+        if(users[username]['access_level']=="admin" or users[username]['access_level']=="operator"):
             continue
         filename = f"user_data/{username}.txt"
         with open(filename, 'r') as file:
@@ -310,7 +312,53 @@ def download_file():
 @app.route('/owner_name/<owner_name>', methods=['GET', 'POST'])
 def owner_dashboard(owner_name):
     all_users=load_users()
-    return render_template('operator_dashboard.html', username=owner_name, all_users=all_users)
-
+    values=[]
+    for i in range(15):
+        values.append(randint(1,2))
+    ampgen=[]
+    for i in range(30):
+        ampgen.append(randint(1,4))
+    users = load_users()
+    all_users = []
+    for username, data in users.items():
+        if username=="owner" or username =="username2":
+            continue
+        filename = f"user_data/{username}.txt"
+        with open(filename, 'r') as file:
+            data = file.readlines()
+        filename = f"user_data/userStatus/{username}.txt"
+        with open(filename, 'r') as file:
+            data = file.readlines()
+        onoff=data[0].split(',')[0]
+        payinfo=data[0].split(',')[1]
+        user_info = {
+            'username': username,
+            'on/off':onoff,
+            'payinfo': payinfo
+        }
+        all_users.append(user_info)
+    return render_template('operator_dashboard.html', username=owner_name, all_users=all_users,values=values,ampgen=ampgen)
+@app.route('/button_pressed_owner', methods=['GET', 'POST'])
+def button_pressed_owner():
+    username=request.form['username']
+    filename = f"user_data/userStatus/{username}.txt"
+    with open(filename, 'r') as f:
+        data = f.read()
+    first_status, second_status = data.split(',')
+    if request.form['action']=='1':
+        if(first_status == 'off'):
+            first_status='on'
+        else:
+            first_status = 'off'
+    if request.form['action']=='2':
+        print(second_status)
+        if second_status == 'off':
+            second_status = 'on'
+        else:
+            second_status = 'off'
+    with open(filename, 'w') as f:
+        print(first_status,second_status)
+        f.write(f"{first_status},{second_status}")
+    return redirect(url_for('owner_dashboard', owner_name=request.form['admin']))
 if __name__ == '__main__':
     app.run(debug=1)
