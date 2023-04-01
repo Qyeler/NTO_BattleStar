@@ -12,7 +12,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from flask import abort
 import calcsum
-import  doPdf
+import doPdf
+from calculate_users import on_button_update
 
 app = Flask(__name__)
 
@@ -80,22 +81,23 @@ def userboard(username):
     if request.method == 'POST':
         start_str = request.form['start']
         end_str = request.form['end']
-        cost = calcsum.count_watts(f"user_data/{username}.txt",start_str, end_str)
+        cost = calcsum.count_watts(f"user_data/{username}.txt", start_str, end_str)
         img_url = url_for('static', filename=f"images/{username}.png")  # формируем url для файла
         totalscore = cost * 1.74
         cost = round(cost, 2)
         totalscore = round(totalscore, 2)
-        return render_template('user_dashboard.html', user=username,img_url=img_url, cost=cost,totalscore=totalscore)
+        return render_template('user_dashboard.html', user=username, img_url=img_url, cost=cost, totalscore=totalscore)
     username = username
     filename = f"user_data/{username}.txt"
     with open(filename, 'r') as file:
         data = file.readlines()
     x = []
     y = []
-    sr=0.0
+    sr = 0.0
     for line in data:
         values = line.strip().split(',')
-        time = float(float(float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(values[3])) / 3600)
+        time = float(float(float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(
+            values[3])) / 3600)
         if (float(time) < float(sr) + 0.2):
             continue
         sr = float(time)
@@ -106,19 +108,20 @@ def userboard(username):
     filename = f"user_data/temperature/{username}.txt"
     with open(filename, 'r') as file:
         data2 = file.readlines()
-    xtmp=[]
-    ytmp=[]
+    xtmp = []
+    ytmp = []
     sr = 0.0
     for line in data2:
         values = line.strip().split(',')
-        time = float(float(float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(values[3])) / 3600)
+        time = float(float(float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(
+            values[3])) / 3600)
         if (float(time) < float(sr) + 0.2):
             continue
         sr = float(time)
         temp = float(values[4])
         xtmp.append(time)
         ytmp.append(temp)
-    fig2,ax2=plt.subplots()
+    fig2, ax2 = plt.subplots()
     ax2.plot(xtmp, ytmp)
     ax2.set_xlabel('Time')
     ax2.set_ylabel('Temperature')
@@ -137,12 +140,13 @@ def userboard(username):
     img_path = f"static/images/{username}.png"
     plt.savefig(img_path, format='png')
     img_url = url_for('static', filename=f"images/{username}.png")
-    costpdf= calcsum.count_watts(f"user_data/{username}.txt","0,0,0,0", "30,0,0,0")
-    doPdf.create_pdf_with_image_and_sum(f"static/images/{username}.png",f"static/pdf/{username}.pdf",5,costpdf,costpdf*1.78)
+    costpdf = calcsum.count_watts(f"user_data/{username}.txt", "0,0,0,0", "30,0,0,0")
+    doPdf.create_pdf_with_image_and_sum(f"static/images/{username}.png", f"static/pdf/{username}.pdf", 5, costpdf,
+                                        costpdf * 1.78)
     filename = f"user_data/userStatus/{username}.txt"
     with open(filename, 'r') as f:
         data = f.read()
-    return render_template('user_dashboard.html', img_url=img_url, user=username,status=data.split(',')[0])
+    return render_template('user_dashboard.html', img_url=img_url, user=username, status=data.split(',')[0])
 
 
 # @app.route('/dashboard/<username>')
@@ -170,33 +174,35 @@ def admin_dashboard(admin_username):
     if 'username' not in session or session['username'] != admin_username:
         return redirect(url_for('login'))
     if request.method == 'POST':
-        user_str=request.form['username']
+        user_str = request.form['username']
         start_str = request.form['start']
         end_str = request.form['end']
-        cost = calcsum.count_watts(f"user_data/{user_str}.txt",start_str, end_str)
+        cost = calcsum.count_watts(f"user_data/{user_str}.txt", start_str, end_str)
         img_url = url_for('static', filename=f"images/{user_str}.png")  # формируем url для файла
         totalscore = cost * 1.74
         cost = round(cost, 2)
         totalscore = round(totalscore, 2)
-        return render_template('calc info.html', username=admin_username, cost=cost,totalscore=totalscore)
+        return render_template('calc info.html', username=admin_username, cost=cost, totalscore=totalscore)
 
     users = load_users()
     all_users = []
     for username, data in users.items():
-        if(users[username]['access_level']=="admin" or users[username]['access_level']=="operator"):
+        if (users[username]['access_level'] == "admin" or users[username]['access_level'] == "operator"):
             continue
         filename = f"user_data/{username}.txt"
         with open(filename, 'r') as file:
             data = file.readlines()
         x = []
         y = []
-        sr=0.0
+        sr = 0.0
         for line in data:
             values = line.strip().split(',')
-            time = float(float(float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(values[3]))/3600)
-            if(float(time)<float(sr)+0.2):
+            time = float(float(
+                float(values[0]) * 24 * 60 * 60 + float(values[1]) * 60 * 60 + float(values[2]) * 60 + float(
+                    values[3])) / 3600)
+            if (float(time) < float(sr) + 0.2):
                 continue
-            sr=float(time)
+            sr = float(time)
             power = float(values[4])
             x.append(time)
             y.append(power)
@@ -239,46 +245,50 @@ def admin_dashboard(admin_username):
         plt.savefig(img_path2, format='png')
         img_url2 = url_for('static', filename=f"images/tempgraf/{username}.png")
 
-        start_str="0,0,0,0"
-        end_str="30,0,0,0"
+        start_str = "0,0,0,0"
+        end_str = "30,0,0,0"
         cost = calcsum.count_watts(f"user_data/{username}.txt", start_str, end_str)
         filename = f"user_data/userStatus/{username}.txt"
         with open(filename, 'r') as file:
             data = file.readlines()
-        onoff=data[0].split(',')[0]
-        payinfo=data[0].split(',')[1]
+        onoff = data[0].split(',')[0]
+        payinfo = data[0].split(',')[1]
         user_info = {
             'username': username,
             'field1': str(cost),  # заполни данные для поля 1
             'graf': f'data:image/png;base64,{img_url}',  # заполни данные для поля 2
-            'graf2':f'data:image/png;base64,{img_url2}',
-            'on/off':onoff,
+            'graf2': f'data:image/png;base64,{img_url2}',
+            'on/off': onoff,
             'payinfo': payinfo
         }
         all_users.append(user_info)
     return render_template('admin_dashboard.html', username=admin_username, all_users=all_users)
+
+
 @app.route('/button_pressed', methods=['GET', 'POST'])
 def button_pressed():
-    username=request.form['username']
+    username = request.form['username']
     filename = f"user_data/userStatus/{username}.txt"
     with open(filename, 'r') as f:
         data = f.read()
     first_status, second_status = data.split(',')
-    if request.form['action']=='1':
-        if(first_status == 'off'):
-            first_status='on'
+    if request.form['action'] == '1':
+        if (first_status == 'off'):
+            first_status = 'on'
         else:
             first_status = 'off'
-    if request.form['action']=='2':
+    if request.form['action'] == '2':
         print(second_status)
         if second_status == 'off':
             second_status = 'on'
         else:
             second_status = 'off'
     with open(filename, 'w') as f:
-        print(first_status,second_status)
+        print(first_status, second_status)
         f.write(f"{first_status},{second_status}")
     return redirect(url_for('admin_dashboard', admin_username=request.form['admin']))
+
+
 # @app.route('/admin_dashboard/<admin_username>/user_stats/<user_username>')
 # def user_stats(admin_username, user_username):
 #     if 'username' not in session or session['username'] != admin_username:
@@ -305,23 +315,31 @@ def download_file():
     with open(filename, 'r') as f:
         data = f.read()
     first_status, second_status = data.split(',')
-    second_status='off'
+    second_status = 'off'
     with open(filename, 'w') as f:
         f.write(f"{first_status},{second_status}")
     return send_file('static/pdf/{}.pdf'.format(user), as_attachment=True)
+
+
 @app.route('/owner_name/<owner_name>', methods=['GET', 'POST'])
 def owner_dashboard(owner_name):
-    all_users=load_users()
-    values=[]
-    for i in range(15):
-        values.append(randint(1,2))
-    ampgen=[]
+    calc = on_button_update()
+    ampgen = []
     for i in range(30):
-        ampgen.append(randint(1,4))
+        ampgen.append(1 if calc[i] else 0)
+    for i in range(29, 45):
+        if (i < 33):
+            ampgen.append(4 if calc[i] else 1)
+        elif (i < 36):
+            ampgen.append(1 if calc[i] else 2)
+        elif (i < 40):
+            ampgen.append(2 if calc[i] else 3)
+        else:
+            ampgen.append(3 if calc[i] else 4)
     users = load_users()
     all_users = []
     for username, data in users.items():
-        if username=="owner" or username =="username2":
+        if username == "owner" or username == "username2":
             continue
         filename = f"user_data/{username}.txt"
         with open(filename, 'r') as file:
@@ -329,36 +347,37 @@ def owner_dashboard(owner_name):
         filename = f"user_data/userStatus/{username}.txt"
         with open(filename, 'r') as file:
             data = file.readlines()
-        onoff=data[0].split(',')[0]
-        payinfo=data[0].split(',')[1]
+        onoff = data[0].split(',')[0]
+        payinfo = data[0].split(',')[1]
         user_info = {
             'username': username,
-            'on/off':onoff,
+            'on/off': onoff,
             'payinfo': payinfo
         }
         all_users.append(user_info)
-    return render_template('operator_dashboard.html', username=owner_name, all_users=all_users,values=values,ampgen=ampgen)
+    print(all_users)
+
+    return render_template('operator_dashboard.html', username=owner_name, all_users=all_users, ampgen=ampgen)
+
+
 @app.route('/button_pressed_owner', methods=['GET', 'POST'])
 def button_pressed_owner():
-    username=request.form['username']
+    print(1)
+    username = request.form['username']
     filename = f"user_data/userStatus/{username}.txt"
     with open(filename, 'r') as f:
         data = f.read()
     first_status, second_status = data.split(',')
-    if request.form['action']=='1':
-        if(first_status == 'off'):
-            first_status='on'
+    if request.form['action'] == '1':
+        if (first_status == 'off'):
+            first_status = 'on'
         else:
             first_status = 'off'
-    if request.form['action']=='2':
-        print(second_status)
-        if second_status == 'off':
-            second_status = 'on'
-        else:
-            second_status = 'off'
     with open(filename, 'w') as f:
-        print(first_status,second_status)
+        print(first_status, second_status)
         f.write(f"{first_status},{second_status}")
     return redirect(url_for('owner_dashboard', owner_name=request.form['admin']))
+
+
 if __name__ == '__main__':
     app.run(debug=1)

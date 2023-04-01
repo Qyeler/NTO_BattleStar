@@ -714,16 +714,16 @@ body {
             </div>
             <div id="btns">
             {% for user in all_users %}
-                <form method="post" action="{{ url_for('button_pressed_owner') }}" id="myForm">
+                <form method="post" action="{{ url_for('button_pressed_owner') }}" id="myForm-{{ user['username'] }}">
                     <input type="hidden" name="username" value="{{ user['username'] }}">
                     <input type="hidden" name="admin" value="{{ username }}">
                     <input type="hidden" name="action" value="1">
-                    <input class="btn1" type="button" value="{{ user['on/off']}}" id="onoff" name="action">
-                    <button onclick="changeColor()" class="btst" value="{{username['on/off']}}"></button>
+                    <input class="btn1" type="button" value="{{ user['on/off']}}" id="onoff-{{ user['username'] }}" name="action">
+                    <button onclick="changeColor()" class="btst" value="{{user['on/off']}}"></button>
                     <script>
-                    document.getElementById('onoff').addEventListener('click', function() {
-                    document.getElementById('myForm').submit();
-                    });
+                        document.getElementById('onoff-{{ user['username'] }}').addEventListener('click', function() {
+                            document.getElementById('myForm-{{ user['username'] }}').submit();
+                        });
                     </script>
                 </form>
             {% endfor %}
@@ -759,21 +759,21 @@ body {
             </div>
 
             <div id="zna">
-                <input type="text" value="{{ values[0] }}" id="onoff" onclick="onoff(this)" class="btnn1">
-                <input type="text" value="{{ values[1] }}" id="onoff" onclick="onoff(this)" class="btnn2">
-                <input type="text" value="{{ values[2] }}" id="onoff" onclick="onoff(this)" class="btnn3">
-                <input type="text" value="{{ values[3] }}" id="onoff" onclick="onoff(this)" class="btnn4">
-                <input type="text" value="{{ values[4] }}" id="onoff" onclick="onoff(this)" class="btnn5">
-                <input type="text" value="{{ values[5] }}" id="onoff" onclick="onoff(this)" class="btnn6">
-                <input type="text" value="{{ values[6] }}" id="onoff" onclick="onoff(this)" class="btnn7">
-                <input type="text" value="{{ values[7] }}" id="onoff" onclick="onoff(this)" class="btnn8">
-                <input type="text" value="{{ values[8] }}" id="onoff" onclick="onoff(this)" class="btnn9">
-                <input type="text" value="{{ values[9] }}" id="onoff" onclick="onoff(this)" class="btnn10">
-                <input type="text" value="{{ values[10] }}" id="onoff" onclick="onoff(this)" class="btnn11">
-                <input type="text" value="{{ values[11] }}" id="onoff" onclick="onoff(this)" class="btnn12">
-                <input type="text" value="{{ values[12] }}" id="onoff" onclick="onoff(this)" class="btnn13">
-                <input type="text" value="{{ values[13] }}" id="onoff" onclick="onoff(this)" class="btnn14">
-                <input type="text" value="{{ values[14] }}" id="onoff" onclick="onoff(this)" class="btnn15">
+                <input type="text" value="{{ ampgen[30] }}" id="onoff" onclick="onoff(this)" class="btnn1">
+                <input type="text" value="{{ ampgen[31] }}" id="onoff" onclick="onoff(this)" class="btnn2">
+                <input type="text" value="{{ ampgen[32] }}" id="onoff" onclick="onoff(this)" class="btnn3">
+                <input type="text" value="{{ ampgen[33] }}" id="onoff" onclick="onoff(this)" class="btnn4">
+                <input type="text" value="{{ ampgen[34] }}" id="onoff" onclick="onoff(this)" class="btnn5">
+                <input type="text" value="{{ ampgen[35] }}" id="onoff" onclick="onoff(this)" class="btnn6">
+                <input type="text" value="{{ ampgen[36] }}" id="onoff" onclick="onoff(this)" class="btnn7">
+                <input type="text" value="{{ ampgen[37] }}" id="onoff" onclick="onoff(this)" class="btnn8">
+                <input type="text" value="{{ ampgen[38] }}" id="onoff" onclick="onoff(this)" class="btnn9">
+                <input type="text" value="{{ ampgen[39] }}" id="onoff" onclick="onoff(this)" class="btnn10">
+                <input type="text" value="{{ ampgen[40] }}" id="onoff" onclick="onoff(this)" class="btnn11">
+                <input type="text" value="{{ ampgen[41] }}" id="onoff" onclick="onoff(this)" class="btnn12">
+                <input type="text" value="{{ ampgen[42] }}" id="onoff" onclick="onoff(this)" class="btnn13">
+                <input type="text" value="{{ ampgen[43] }}" id="onoff" onclick="onoff(this)" class="btnn14">
+                <input type="text" value="{{ ampgen[44] }}" id="onoff" onclick="onoff(this)" class="btnn15">
 
             </div>
             <div id="submit">
